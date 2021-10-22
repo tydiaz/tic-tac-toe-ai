@@ -1,3 +1,4 @@
+import re
 from time import sleep
 
 PLAYER_X = 'X'
@@ -7,16 +8,24 @@ BOARD_TOP_BOTTOM = '-' * 11
 
 
 def get_initial_state():
-    user_cell = input('Enter 9 symbols X/O/_:\n$ ').upper().replace('_', ' ')
+    pattern = r'[^XO_]+'
+    while True:
+        user_cell = input('Enter 9 symbols X/O/_:\n$ ').upper()
+
+        if re.findall(pattern, user_cell):
+            print('\nSymbols must be combination of X, O, _\n')
+            continue
+        break
 
     for _ in user_cell:
         if len(user_cell) == 9:
+            user_cell = user_cell.replace('_', ' ')
             user_cell = [i for i in user_cell]
             cell_list = [user_cell[i:i + 3] for i in range(0, len(user_cell), 3)]
 
             return cell_list
         else:
-            print('Cell must contain 9 symbols!')
+            print('\nCell must contain 9 symbols!\n')
             return get_initial_state()
 
 
