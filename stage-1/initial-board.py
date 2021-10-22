@@ -4,7 +4,7 @@ from time import sleep
 PLAYER_X = 'X'
 PLAYER_O = 'O'
 BOARD_SIDES = '|'
-BOARD_TOP_BOTTOM = '-' * 11
+BOARD_TOP_BOTTOM = '-' * 9
 
 
 def get_initial_state():
@@ -34,28 +34,30 @@ def get_coordinates(cell):
 
     print_board(cell)
     while True:
+        
+        coordinates = input('Enter the coordinates:\n$ ')
+        if ' ' in coordinates:
+            coordinates = coordinates.replace(' ', '')
         try:
-            coordinates = input('Enter the coordinates:\n$ ')
-            if ' ' in coordinates:
-                coordinates = coordinates.replace(' ', '')
-            try:
-                coordinates_list = [int(i) for i in coordinates]
-            except ValueError:
-                print('\nYou should enter numbers!\n')
-                continue
+            coordinates_list = [int(i) for i in coordinates]
+        except ValueError:
+            print('\nYou should enter numbers!\n')
+            continue
 
-            if (coordinates_list[0] and coordinates_list[1]) > 3:
-                print('\nCoordinates should be from 1 to 3!\n')
-                continue
-            else:
-                moves = [coordinates_list[i] - 1 for i in range(len(coordinates_list)) if len(coordinates_list) < 3]
-
-                if cell[moves[0]][moves[1]] == PLAYER_X or cell[moves[0]][moves[1]] == PLAYER_O:
-                    print('\nThis cell is occupied! Choose another one!\n')
-                    continue
-        except IndexError:
+        if len(coordinates_list) > 2:
             print('\nCoordinates must be two numbers!\n')
             continue
+
+        elif coordinates_list[0] > 3 or coordinates_list[1] > 3:
+            print('\nCoordinates should be from 1 to 3!\n')
+            continue  
+            
+        else:
+            moves = [coordinates_list[i] - 1 for i in range(len(coordinates_list)) if len(coordinates_list) < 3]
+
+            if cell[moves[0]][moves[1]] == PLAYER_X or cell[moves[0]][moves[1]] == PLAYER_O:
+                print('\nThis cell is occupied! Choose another one!\n')
+                continue
         break
     return moves
 
@@ -86,7 +88,7 @@ def get_results(cell, move):
             (cell[1][0] == move and cell[1][1] == move and cell[1][2] == move) or
             (cell[2][0] == move and cell[2][1] == move and cell[2][2] == move)):
         return '%s wins!' % move
-    elif all(c == 'X' or c == 'O' for char in cell for c in char):
+    elif all(c == PLAYER_X or c == PLAYER_O for char in cell for c in char):
         return 'Draw!'
 
     return 'Game not finished!'
@@ -94,9 +96,9 @@ def get_results(cell, move):
 
 def print_board(cells):
     print('\n' + BOARD_TOP_BOTTOM)
-    print(f'{BOARD_SIDES} {cells[0][0]}  {cells[0][1]}  {cells[0][2]} {BOARD_SIDES}')
-    print(f'{BOARD_SIDES} {cells[1][0]}  {cells[1][1]}  {cells[1][2]} {BOARD_SIDES}')
-    print(f'{BOARD_SIDES} {cells[2][0]}  {cells[2][1]}  {cells[2][2]} {BOARD_SIDES}')
+    print(f'{BOARD_SIDES} {cells[0][0]} {cells[0][1]} {cells[0][2]} {BOARD_SIDES}')
+    print(f'{BOARD_SIDES} {cells[1][0]} {cells[1][1]} {cells[1][2]} {BOARD_SIDES}')
+    print(f'{BOARD_SIDES} {cells[2][0]} {cells[2][1]} {cells[2][2]} {BOARD_SIDES}')
     print(BOARD_TOP_BOTTOM + '\n')
 
 
