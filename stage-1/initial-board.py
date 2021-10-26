@@ -96,9 +96,8 @@ def get_results(cell, move):
 
 def print_board(cells):
     print('\n' + BOARD_TOP_BOTTOM)
-    print(f'{BOARD_SIDES} {cells[0][0]} {cells[0][1]} {cells[0][2]} {BOARD_SIDES}')
-    print(f'{BOARD_SIDES} {cells[1][0]} {cells[1][1]} {cells[1][2]} {BOARD_SIDES}')
-    print(f'{BOARD_SIDES} {cells[2][0]} {cells[2][1]} {cells[2][2]} {BOARD_SIDES}')
+    for i in range(0, 3):
+        print(f'{BOARD_SIDES} {cells[i][0]} {cells[i][1]} {cells[i][2]} {BOARD_SIDES}')
     print(BOARD_TOP_BOTTOM + '\n')
 
 
